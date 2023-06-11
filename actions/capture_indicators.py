@@ -3,6 +3,9 @@ import requests
 
 from objects.Country import Country
 
+indicator_accessed_dict = {'date': list(), 'multiplier': list(),
+                      'information': list(), 'unit': list()}
+
 
 def show_indicators_id():
     try:

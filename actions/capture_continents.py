@@ -67,28 +67,49 @@ except Exception as ex:
 
 
 def show_continents():
-    lista_temporaria_1 = list()
+    continents_list = list()
     for cont in all_world_locations:
-        lista_temporaria_1.append(cont)
+        continents_list.append(cont)
 
-    return lista_temporaria_1
+    return continents_list
 
 
 def show_regions_from_selected_continent(continent):
-    lista_temporaria_2 = list()
+    regions_list = list()
     for reg in all_world_locations[continent]:
-        lista_temporaria_2.append(reg)
+        regions_list.append(reg)
 
-    return lista_temporaria_2
+    return regions_list
 
 
 def show_countries_from_selected_region(cont, region_of_cont):
-    lista_temporaria_3 = list()
+    countries_list = list()
     try:
         for ctry in all_world_locations[cont][region_of_cont]:
-            lista_temporaria_3.append(ctry.name)
+            countries_list.append(ctry.name)
 
     except ConnectionError as connect_error:
-        lista_temporaria_3.append(connect_error)
+        countries_list.append(connect_error)
     finally:
-        return lista_temporaria_3
+        return countries_list
+
+
+def show_number_of_countries_by_continent():
+    numbers_list = {'Oceania': list(), 'Europa': list(), 'América': list(),
+                    'Ásia': list(), 'África': list()}
+
+    for x in all_world_locations:
+
+        for y in all_world_locations[x]:
+            cont = len(all_world_locations[x][y])
+
+            if x in numbers_list:
+                numbers_list[x].append(cont)
+
+        total = sum(numbers_list[x])
+        numbers_list[x] = total
+
+    return numbers_list
+
+
+show_number_of_countries_by_continent()

@@ -5,7 +5,8 @@ from actions.capture_continents import all_world_locations, show_regions_from_se
 from actions.capture_countries import all_countries_of_the_world_dict_acronyms, \
     capture_information_about_specific_country
 from actions.capture_indicators import show_all_indicators_of_selected_country, \
-    show_specific_indicator_of_specific_country
+    show_specific_indicator_of_specific_country, indicator_accessed_dict
+from graphics.graphic import lines_graphic_ramp_up
 from objects.Country import Country
 
 
@@ -13,6 +14,12 @@ def start(window=None):
     if window is not None:
         window.destroy()
     AppStart()
+
+
+def _white_indicator_in_text(date, unit, information, multiplier):
+    text_to_print = f" -   Periodo de {date}   >>      " \
+                    f"{unit}: {information}      " \
+                    f"multiplicado por: ({multiplier}x) \n"
 
 
 class AppStart:
@@ -58,7 +65,7 @@ class AppStart:
         self.menu.add_cascade(label="Paises", menu=self.menu_countries)
         self.menu_countries.add_command(label="Lista de Paises", command=self.open_countries)
 
-        # // continentes(em desenvolvimento)
+        # // continentes
         self.menu_continents = Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Continentes", menu=self.menu_continents)
         self.menu_continents.add_command(label="Lista de Continentes", command=self.open_continents)
@@ -214,35 +221,44 @@ class AppStart:
         self.list.insert(END, self.country.name)
         self.list.insert(END, '\n\n')
 
-        for item in indicator_selected:
+        for i in indicator_selected:
 
-            if item == 'xxErrorxx[specific_indicator]':
+            if i == 'xxErrorxx[specific_indicator]':
+                self.list.insert(END, i)
+                self.text.insert(END, indicator_selected[i])
 
-                self.list.insert(END, item)
-                self.text.insert(END, indicator_selected[item])
+            elif i == 'series':
 
-            elif item == 'series':
+                for j in indicator_selected[i][0]['serie']:
 
-                information_list = indicator_selected[item][0]['serie']
-                for information in information_list:
-
-                    for data in information:
-
-                        if information[data] is None:
+                    for date in j:
+                        if j[date] is None:
                             pass
 
                         else:
+                            date = date
+                            indicator_accessed_dict['date'].append(int(date))
+
+                            information = float(j[date])
+                            indicator_accessed_dict['information'].append(information)
+
                             unit = indicator_selected['unidade']['id']
+                            indicator_accessed_dict['unit'].append(unit)
+
                             multiplier = indicator_selected['unidade']['multiplicador']
+                            indicator_accessed_dict['multiplier'].append(multiplier)
 
-                            text_to_print = f" -   Periodo de {data}   >>      {unit}: {information[data]}    " \
-                                            f"  multiplicado por: ({multiplier}x) \n"
-
-                            self.text.insert(END, text_to_print)
+                            self.text.insert(END, " -   Periodo de {date}   >>      "
+                                                  f"{unit}: {information}      "
+                                                  f"multiplicado por: ({multiplier}x) \n")
 
             else:
-                self.list.insert(END, f"{item}:  {indicator_selected[item]}")
+                self.list.insert(END, f"{i}:  {indicator_selected[i]}")
                 self.list.insert(END, '\n\n')
+
+        print(indicator_accessed_dict)
+
+        lines_graphic_ramp_up(indicator_accessed_dict, f"({self.country.name}): {indicator_name}")
 
     def back_to_initial_settings(self):
         start(self.window)
