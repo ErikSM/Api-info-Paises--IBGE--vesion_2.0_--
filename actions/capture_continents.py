@@ -3,6 +3,7 @@ import requests
 
 from objects.Country import Country
 
+
 africa = dict()
 oceania = dict()
 america = dict()
@@ -110,6 +111,3 @@ def show_number_of_countries_by_continent():
         numbers_list[x] = total
 
     return numbers_list
-
-
-show_number_of_countries_by_continent()

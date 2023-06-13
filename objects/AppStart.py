@@ -21,6 +21,7 @@ class AppStart:
     def __init__(self):
 
         self.country = None
+        self.create_graphic = bool
 
         self.bg_collor_window = "black"
 
@@ -227,7 +228,11 @@ class AppStart:
                     indicator_selected[i][0]['serie']
                 except Exception as ex:
                     self._error_messege_print(ex, True)
+                    self.create_graphic = False
+
                 else:
+                    self.create_graphic = True
+
                     for j in indicator_selected[i][0]['serie']:
 
                         for date in j:
@@ -265,13 +270,12 @@ class AppStart:
                                 self.text.insert(END, f" -   Periodo de {date}   >>      "
                                                       f"{unit}: {information}      "
                                                       f"multiplicado por: ({multiplier}x) \n")
-
-                                lines_graphic_ramp_up(indicator_accessed_dict,
-                                                      f"({self.country.name}): {indicator_name}")
-
             else:
                 self.list.insert(END, f"{i}:  {indicator_selected[i]}")
                 self.list.insert(END, '\n\n')
+
+        if self.create_graphic:
+            lines_graphic_ramp_up(indicator_accessed_dict, f"({self.country.name}): {indicator_name}")
 
     def back_to_initial_settings(self):
         start(self.window)
