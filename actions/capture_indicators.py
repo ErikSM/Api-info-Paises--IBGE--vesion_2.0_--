@@ -40,9 +40,7 @@ def show_specific_indicator_of_specific_country(country: Country, indicator):
 
     except Exception as ex:
         error_dict = dict()
-
         error_dict['xxErrorxx[specific_indicator]'] = f"Error:({ex})"
-        print(ex)
 
         return error_dict
 
@@ -56,12 +54,12 @@ def show_all_indicators_of_selected_country(country: Country):
 
         areas_and_subjects_list = list()
 
-        for indicator in list_indicators_of_source:
-            string_indicador = indicator['indicador']
+        for i in list_indicators_of_source:
+            string_indicador = i['indicador']
             parameter = _found_string_position(string_indicador, '-')
 
             area = string_indicador[0:parameter - 1]
-            subject = f"{indicator['id']}:  {string_indicador[parameter + 2:]}"
+            subject = f"{i['id']}:  {string_indicador[parameter + 2:]}"
 
             areas_and_subjects_list.append((area, subject))
 
@@ -92,10 +90,3 @@ def _found_string_position(string, caractere):
         index = index + 1
 
     return -1
-
-
-'''print(show_indicators_id())
-print("--------------")
-print(show_all_indicators_of_selected_country("US"))
-print("--------------")
-print(show_specific_indicator_of_specific_country("BR", "77818"))'''

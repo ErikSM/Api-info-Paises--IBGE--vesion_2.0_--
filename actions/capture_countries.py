@@ -11,19 +11,19 @@ try:
     request = requests.get(f"https://servicodados.ibge.gov.br/api/v1/localidades/paises")
     all_world_in_source = json.loads(request.text)
 
-    for item in all_world_in_source:
+    for i in all_world_in_source:
 
-        code_id = item['id']['ISO-ALPHA-2']
-        name = item['nome']
+        code_id = i['id']['ISO-ALPHA-2']
+        name = i['nome']
         country = Country(code_id, name)
 
-        country.location['continente'] = item['sub-regiao']['regiao']['nome']
-        country.location['regiao'] = item['sub-regiao']['nome']
+        country.location['continente'] = i['sub-regiao']['regiao']['nome']
+        country.location['regiao'] = i['sub-regiao']['nome']
 
-        if item['regiao-intermediaria'] is None:
+        if i['regiao-intermediaria'] is None:
             country.location['regiao especifica'] = "---"
         else:
-            country.location['regiao especifica'] = item['regiao-intermediaria']['nome']
+            country.location['regiao especifica'] = i['regiao-intermediaria']['nome']
 
         all_countries_of_the_world_dict_names[country.name] = country
         all_countries_of_the_world_dict_acronyms[country.code_id] = country
@@ -85,8 +85,3 @@ def capture_information_about_specific_country(pais):
                       "historico": None}
 
         return error_dict
-
-
-"""print(all_countries_of_the_world_dict_names)
-print(all_countries_of_the_world_dict_acronyms)"""
-

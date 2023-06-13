@@ -223,13 +223,11 @@ class AppStart:
                 self.text.insert(END, indicator_selected[i])
 
             elif i == 'series':
-
                 try:
                     indicator_selected[i][0]['serie']
                 except Exception as ex:
                     self._error_messege_print(ex, True)
                     self.create_graphic = False
-
                 else:
                     self.create_graphic = True
 
@@ -238,13 +236,11 @@ class AppStart:
                         for date in j:
                             if j[date] is None:
                                 pass
-
                             else:
                                 date = date
 
                                 try:
                                     int(date)
-
                                 except Exception as ex:
                                     print(ex)
 
@@ -254,7 +250,6 @@ class AppStart:
                                     date_tuple = (int(string[:separator]), int(string[separator + 1:]))
 
                                     date = sum(date_tuple) / 2
-
                                 finally:
                                     indicator_accessed_dict['date'].append(int(date))
 
