@@ -223,36 +223,55 @@ class AppStart:
 
             elif i == 'series':
 
-                for j in indicator_selected[i][0]['serie']:
+                try:
+                    indicator_selected[i][0]['serie']
+                except Exception as ex:
+                    self._error_messege_print(ex, True)
+                else:
+                    for j in indicator_selected[i][0]['serie']:
 
-                    for date in j:
-                        if j[date] is None:
-                            pass
+                        for date in j:
+                            if j[date] is None:
+                                pass
 
-                        else:
-                            date = date
-                            indicator_accessed_dict['date'].append(int(date))
+                            else:
+                                date = date
 
-                            information = float(j[date])
-                            indicator_accessed_dict['information'].append(information)
+                                try:
+                                    int(date)
 
-                            unit = indicator_selected['unidade']['id']
-                            indicator_accessed_dict['unit'].append(unit)
+                                except Exception as ex:
+                                    print(ex)
 
-                            multiplier = indicator_selected['unidade']['multiplicador']
-                            indicator_accessed_dict['multiplier'].append(multiplier)
+                                    string = date
+                                    separator = string.index('-')
 
-                            self.text.insert(END, " -   Periodo de {date}   >>      "
-                                                  f"{unit}: {information}      "
-                                                  f"multiplicado por: ({multiplier}x) \n")
+                                    date_tuple = (int(string[:separator]), int(string[separator + 1:]))
+
+                                    date = sum(date_tuple) / 2
+
+                                finally:
+                                    indicator_accessed_dict['date'].append(int(date))
+
+                                information = float(j[date])
+                                indicator_accessed_dict['information'].append(information)
+
+                                unit = indicator_selected['unidade']['id']
+                                indicator_accessed_dict['unit'].append(unit)
+
+                                multiplier = indicator_selected['unidade']['multiplicador']
+                                indicator_accessed_dict['multiplier'].append(multiplier)
+
+                                self.text.insert(END, f" -   Periodo de {date}   >>      "
+                                                      f"{unit}: {information}      "
+                                                      f"multiplicado por: ({multiplier}x) \n")
+
+                                lines_graphic_ramp_up(indicator_accessed_dict,
+                                                      f"({self.country.name}): {indicator_name}")
 
             else:
                 self.list.insert(END, f"{i}:  {indicator_selected[i]}")
                 self.list.insert(END, '\n\n')
-
-        print(indicator_accessed_dict)
-
-        lines_graphic_ramp_up(indicator_accessed_dict, f"({self.country.name}): {indicator_name}")
 
     def back_to_initial_settings(self):
         start(self.window)
@@ -348,8 +367,9 @@ class AppStart:
                               f'  (( Possivel problemas  ))\n'
                               f'- Selecione um item antes de avancar caso nao selecionado\n'
                               f'- Verifique se selecionou o item corretamente\n'
-                              f'- Problemas com conexao de internet\n\n\n'
-                              f'** Desenvolvedor **'
+                              f'- Problemas com conexao de internet\n'
+                              f'- Item/Informacao nao encontrado ou Inexistente na fonte\n\n\n'
+                              f'** Desenvolvedor **\n'
                               f'--- Exception type: {error_type}')
 
     def _clear(self):

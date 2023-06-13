@@ -16,16 +16,16 @@ def lines_graphic_ramp_up(dictionary: dict, graphic_name='grafico de linha'):
 
         if i == 'information':
             roster_y = dictionary[i]
-            y_axle_name = f"Unidade:{dictionary['unit'][0]}  -  Mult:(x{dictionary['multiplier'][0]})"
+            y_axle_name = f"Unidade em: [{dictionary['unit'][0]}]  -  Mult:(x{dictionary['multiplier'][0]})"
 
         elif i == 'date':
             roster_x = dictionary[i]
             x_axle_name = 'Datas de pesquisa:'
 
-    plt.plot(roster_x, roster_y, linestyle="-", color="black", marker=".", linewidth=1.0)
+    plt.plot(roster_x, roster_y, linestyle="-", color="red", marker=".", linewidth=1.0)
 
     plt.title("{}".format(graphic_name), font="Times New Roman", color="black", fontsize=14)
-    plt.xlabel("{}".format(x_axle_name), font="Consolas", color="black", fontsize=9)
-    plt.ylabel("{}".format(y_axle_name), font="Consolas", color="black", fontsize=9)
+    plt.xlabel("{}".format(x_axle_name), font="Consolas bold", color="black", fontsize=9)
+    plt.ylabel("{}".format(y_axle_name), font="Consolas bold", color="black", fontsize=9)
 
     plt.show()

@@ -8,9 +8,17 @@ def search_indice(lista_de_busca, pais):
 
 
 # teste
-print(search_indice(lista, "australia"))  # (0, 0)
+'''print(search_indice(lista, "australia"))  # (0, 0)
 print(search_indice(lista, "japao"))  # (0, 1)
 print(search_indice(lista, "russia"))  # (0, 2)
 print(search_indice(lista, "inglaterra"))  # (1, 0)
 
-print(search_indice(lista, "Brasil"))  # None
+print(search_indice(lista, "Brasil"))  # None'''
+
+#  -------------------------
+'''string = '2000-2002'
+separator = string.index('-')
+data = (int(string[:separator]), int(string[separator + 1:]))
+print(data)
+resultado = sum(data) / 2
+print(resultado)'''

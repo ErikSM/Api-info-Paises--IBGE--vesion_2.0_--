@@ -102,8 +102,8 @@ def _found_string_position(string, caractere):
     return -1
 
 
-"""print(show_indicators_id())
-print("--------------")
+#print(show_indicators_id())
+'''print("--------------")
 print(show_specific_indicator_of_specific_country("BR", "77818"))
-print("--------------")"""
-print(show_all_indicators_of_selected_country("US"))
+print("--------------")'''
+#print(show_all_indicators_of_selected_country("US"))
